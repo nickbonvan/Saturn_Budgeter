@@ -11,6 +11,7 @@ namespace Saturn_Budgeter.Models
         public string Name { get; set; }
         public int Amount { get; set; }
         public bool Reconciled { get; set; }
+        public bool Void { get; set; }
         
         public int AccountId { get; set; }
         public string UserId { get; set; }

@@ -255,6 +255,10 @@
     <Compile Include="Migrations\201712051857226_add category to budget item.Designer.cs">
       <DependentUpon>201712051857226_add category to budget item.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712061652419_transactions voidable.cs" />
+    <Compile Include="Migrations\201712061652419_transactions voidable.Designer.cs">
+      <DependentUpon>201712061652419_transactions voidable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BankAccountEditViewModel.cs" />
@@ -411,6 +415,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712051857226_add category to budget item.resx">
       <DependentUpon>201712051857226_add category to budget item.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712061652419_transactions voidable.resx">
+      <DependentUpon>201712061652419_transactions voidable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
