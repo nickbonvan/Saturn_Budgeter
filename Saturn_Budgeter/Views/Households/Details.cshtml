@@ -1,0 +1,93 @@
+﻿@model Saturn_Budgeter.Models.Household
+@using Saturn_Budgeter.Models;
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Household</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dd>@Model.Id</dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Created)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Created)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Updated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Updated)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            Users
+        </dt>
+
+        <dd>
+            @foreach (ApplicationUser user in Model.Users)
+            {
+                @Html.DisplayFor(u => user.DisplayName)
+            }
+        </dd>
+
+        <dt>
+            Accounts
+        </dt>
+
+        <dd>
+            @foreach(BankAccount account in Model.Accounts)
+            {
+                @Html.DisplayFor(bankAccount => bankAccount.Name)
+            }
+        </dd>
+    </dl>
+    @using (Html.BeginForm("Invite", "Households", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <input type="hidden" value="@Model.Id" name="HouseholdId" />
+        <div class="form-group">
+            <div class="col-md-10 col-md-offset-1">
+                <input type="email" name="InviteeEmail" placeholder="Invitee Email" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10 col-md-offset-1">
+                <input type="text" name="Message" placeholder="Send a message" style="width:100%; height:200px;" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10 col-md-offset-2">
+                <input type="submit" class="btn btn-primary" value="Send Invitation"/>
+            </div>
+        </div>
+    }
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

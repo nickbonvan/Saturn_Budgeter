@@ -1,0 +1,94 @@
+﻿@model Saturn_Budgeter.Models.Budget
+@using Saturn_Budgeter.Models
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Budget</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Household.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Household.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BudgetName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BudgetName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BudgetDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BudgetDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BudgetBalance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BudgetBalance)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BudgetCreated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BudgetCreated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Updated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Updated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+
+        <dt>
+            Budget Items
+        </dt>
+
+        <dd>
+            @foreach (BudgetItem item in Model.BudgetItems)
+            {
+                <span>@item.Name: @item.Value</span><br />
+            }
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) 
+    @Html.ActionLink("Add Item", "AddItem", new { id = Model.Id })
+    @Html.ActionLink("Back to List", "Index")
+</p>
