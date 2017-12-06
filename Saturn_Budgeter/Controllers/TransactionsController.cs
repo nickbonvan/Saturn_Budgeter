@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Saturn_Budgeter.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Saturn_Budgeter.Controllers
 {
@@ -36,12 +37,12 @@ namespace Saturn_Budgeter.Controllers
             return View(transaction);
         }
 
-        // GET: Transactions/Create
-        public ActionResult Create()
+        // GET: Transactions/Create/4
+        //Bank account id
+        public ActionResult Create(int id)
         {
-            ViewBag.AccountId = new SelectList(db.BankAccounts, "Id", "Name");
+            ViewBag.AccountId = id;
             ViewBag.TransactionTypeId = new SelectList(db.TransactionTypes, "Id", "Name");
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
             return View();
         }
 
@@ -50,18 +51,16 @@ namespace Saturn_Budgeter.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Amount,Reconciled,AccountId,UserId,TransactionTypeId")] Transaction transaction)
+        public ActionResult Create([Bind(Include = "Id,Name,Amount,Reconciled,AccountId,TransactionTypeId")] Transaction transaction)
         {
             if (ModelState.IsValid)
             {
+                transaction.UserId = User.Identity.GetUserId();
                 db.Transactions.Add(transaction);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "BankAccounts", new { id = transaction.AccountId });
             }
 
-            ViewBag.AccountId = new SelectList(db.BankAccounts, "Id", "Name", transaction.AccountId);
-            ViewBag.TransactionTypeId = new SelectList(db.TransactionTypes, "Id", "Name", transaction.TransactionTypeId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", transaction.UserId);
             return View(transaction);
         }
 
