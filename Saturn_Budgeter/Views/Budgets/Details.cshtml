@@ -82,7 +82,16 @@
         <dd>
             @foreach (BudgetItem item in Model.BudgetItems)
             {
-                <span>@item.Name: @item.Value</span><br />
+                <span>@item.Name: 
+            @if (item.Category.Name == "Income")
+            {
+                <span>+</span>@item.Value
+            }
+            else if(item.Category.Name == "Expense")
+            {
+                <span>-</span>@item.Value
+            }
+            </span><br />
             }
         </dd>
     </dl>

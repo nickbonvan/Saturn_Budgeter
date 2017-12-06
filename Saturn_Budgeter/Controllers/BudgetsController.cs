@@ -111,6 +111,7 @@ namespace Saturn_Budgeter.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name");
             ViewBag.Id = id;
             return View();
         }
@@ -118,7 +119,7 @@ namespace Saturn_Budgeter.Controllers
         // POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddItem([Bind(Include = "Name,Description,Value")] BudgetItem item, int id)
+        public ActionResult AddItem([Bind(Include = "Name,Description,Value,CategoryId")] BudgetItem item, int id)
         {
             if (ModelState.IsValid)
             {
@@ -126,6 +127,31 @@ namespace Saturn_Budgeter.Controllers
                 if(budget.HouseholdId != null)
                 {
                     item.HouseholdId = budget.HouseholdId;
+                }
+                if(item.Value >= 0)
+                {
+                    Category category = db.Categories.FirstOrDefault(c => c.Id == item.CategoryId);
+                    if(category.Name == "Income")
+                    {
+                        budget.BudgetBalance += item.Value;
+                    }
+                    else if(category.Name == "Expense")
+                    {
+                        budget.BudgetBalance -= item.Value;
+                    }
+                }
+                else if (item.Value < 0)
+                {
+                    item.Value = item.Value * (-1);
+                    Category category = db.Categories.FirstOrDefault(c => c.Id == item.CategoryId);
+                    if (category.Name == "Income")
+                    {
+                        budget.BudgetBalance += item.Value;
+                    }
+                    else if (category.Name == "Expense")
+                    {
+                        budget.BudgetBalance -= item.Value;
+                    }
                 }
                 item.Created = DateTimeOffset.Now;
                 item.BudgetId = id;
