@@ -103,64 +103,6 @@ namespace Saturn_Budgeter.Controllers
             }
         }
 
-        // GET: Budgets/AddItem/5
-        [Authorize]
-        public ActionResult AddItem(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name");
-            ViewBag.Id = id;
-            return View();
-        }
-
-        // POST
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddItem([Bind(Include = "Name,Description,Value,CategoryId")] BudgetItem item, int id)
-        {
-            if (ModelState.IsValid)
-            {
-                Budget budget = db.Budgets.FirstOrDefault(b => b.Id == id);
-                if(budget.HouseholdId != null)
-                {
-                    item.HouseholdId = budget.HouseholdId;
-                }
-                if(item.Value >= 0)
-                {
-                    Category category = db.Categories.FirstOrDefault(c => c.Id == item.CategoryId);
-                    if(category.Name == "Income")
-                    {
-                        budget.BudgetBalance += item.Value;
-                    }
-                    else if(category.Name == "Expense")
-                    {
-                        budget.BudgetBalance -= item.Value;
-                    }
-                }
-                else if (item.Value < 0)
-                {
-                    item.Value = item.Value * (-1);
-                    Category category = db.Categories.FirstOrDefault(c => c.Id == item.CategoryId);
-                    if (category.Name == "Income")
-                    {
-                        budget.BudgetBalance += item.Value;
-                    }
-                    else if (category.Name == "Expense")
-                    {
-                        budget.BudgetBalance -= item.Value;
-                    }
-                }
-                item.Created = DateTimeOffset.Now;
-                item.BudgetId = id;
-                db.BudgetItems.Add(item);
-                db.SaveChanges();
-            }
-            return RedirectToAction("Details", new { id = id });
-        }
-
         // GET: Budgets/Edit/5
         [Authorize]
         public ActionResult Edit(int? id)
