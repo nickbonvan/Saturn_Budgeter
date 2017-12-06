@@ -115,7 +115,7 @@ namespace Saturn_Budgeter.Controllers
             {
                 db.Entry(transaction).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "BankAccounts", new { id = transaction.AccountId });
             }
             ViewBag.AccountId = new SelectList(db.BankAccounts, "Id", "Name", transaction.AccountId);
             ViewBag.TransactionTypeId = new SelectList(db.TransactionTypes, "Id", "Name", transaction.TransactionTypeId);
