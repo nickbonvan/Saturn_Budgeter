@@ -49,7 +49,7 @@ namespace Saturn_Budgeter.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,BudgetName,BudgetDescription,BudgetBalance,StartDate,EndDate")] Budget budget, string shared)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,Balance,StartDate,EndDate")] Budget budget, string shared)
         {
             if (ModelState.IsValid)
             {
@@ -64,7 +64,7 @@ namespace Saturn_Budgeter.Controllers
                 {
                     budget.HouseholdId = user.HouseholdId;
                 }
-                budget.BudgetCreated = DateTimeOffset.Now;
+                budget.Created = DateTimeOffset.Now;
                 budget.UserId = User.Identity.GetUserId();
                 db.Budgets.Add(budget);
                 db.SaveChanges();
@@ -125,7 +125,7 @@ namespace Saturn_Budgeter.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,BudgetName,BudgetDescription,BudgetBalance,BudgetCreated,Updated,StartDate,EndDate,HouseholdId")] Budget budget)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description,Balance,Created,Updated,StartDate,EndDate,HouseholdId")] Budget budget)
         {
             if (ModelState.IsValid)
             {

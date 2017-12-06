@@ -80,11 +80,11 @@ namespace Saturn_Budgeter.Controllers
                 Category category = db.Categories.FirstOrDefault(c => c.Id == item.CategoryId);
                 if (category.Name == "Income")
                 {
-                    budget.BudgetBalance += item.Value;
+                    budget.Balance += item.Value;
                 }
                 else if (category.Name == "Expense")
                 {
-                    budget.BudgetBalance -= item.Value;
+                    budget.Balance -= item.Value;
                 }
             }
             else if (item.Value < 0)
@@ -93,11 +93,11 @@ namespace Saturn_Budgeter.Controllers
                 Category category = db.Categories.FirstOrDefault(c => c.Id == item.CategoryId);
                 if (category.Name == "Income")
                 {
-                    budget.BudgetBalance += item.Value;
+                    budget.Balance += item.Value;
                 }
                 else if (category.Name == "Expense")
                 {
-                    budget.BudgetBalance -= item.Value;
+                    budget.Balance -= item.Value;
                 }
             }
         }
