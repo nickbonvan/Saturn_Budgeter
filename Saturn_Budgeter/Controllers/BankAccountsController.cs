@@ -19,7 +19,7 @@ namespace Saturn_Budgeter.Controllers
         // GET: BankAccounts
         public ActionResult Index()
         {
-            var bankAccounts = db.BankAccounts.Include(b => b.Household).Include(b => b.Type).Include(b => b.User);
+            var bankAccounts = db.BankAccounts.Include(b => b.Household).Include(b => b.Type).Include(b => b.User).Include(b => b.Transactions);
             return View(bankAccounts.ToList());
         }
 

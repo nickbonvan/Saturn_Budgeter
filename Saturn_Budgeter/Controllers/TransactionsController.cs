@@ -64,6 +64,28 @@ namespace Saturn_Budgeter.Controllers
             return View(transaction);
         }
 
+        // GET: Transactions/Void/5
+        public ActionResult Void(int id)
+        {
+            Transaction model = db.Transactions.FirstOrDefault(transaction => transaction.Id == id);
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Void(int id, bool voided)
+        {
+            if (ModelState.IsValid)
+            {
+                if (voided)
+                {
+                    Transaction transaction = db.Transactions.FirstOrDefault(t => t.Id == id);
+                    transaction.Void = voided;
+                    return RedirectToAction("Details", "BankAccounts", new { id = id });
+                }
+            }
+            return View();
+        }
+
         // GET: Transactions/Edit/5
         public ActionResult Edit(int? id)
         {

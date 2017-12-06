@@ -19,7 +19,7 @@ namespace Saturn_Budgeter.Models
         public virtual Household Household { get; set; }
         public virtual AccountType Type { get; set; }
         public virtual ApplicationUser User { get; set; }
-        public ICollection<Transaction> Transactions { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
 
 
         public BankAccount()
