@@ -38,10 +38,18 @@
         <dt>
             @Html.DisplayNameFor(model => model.Balance)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Balance)
-        </dd>
+        @if (Model.Balance < 0)
+        {
+            <dd>
+                <span style="color:red"><strong>@Model.Balance</strong></span>
+            </dd>
+        }
+        else
+        {
+            <dd>
+                <span>@Model.Balance</span>
+            </dd>
+        }
 
         <dt>
             @Html.DisplayNameFor(model => model.Created)
