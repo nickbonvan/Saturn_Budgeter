@@ -1,12 +1,7 @@
 ﻿@model Saturn_Budgeter.Models.Transaction
 
-@{
-    ViewBag.Title = "Delete";
-}
+<h2>Void</h2>
 
-<h2>Delete</h2>
-
-<h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>Transaction</h4>
     <hr />
@@ -60,13 +55,16 @@
         </dd>
 
     </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Return", "Details", "BankAccounts", htmlAttributes: null, routeValues: new { id = Model.AccountId })
-        </div>
-    }
 </div>
+<p>
+    Do you want to void this transaction?
+    @using (Html.BeginForm())
+    {
+        <input type="hidden" value="@Model.Id" name="id" />
+        <input type="hidden" value="true" name="voided" />
+
+        <input type="submit" value="Void" class="btn btn-primary"/>
+    }
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Return", "Details", "BankAccounts", htmlAttributes: null, routeValues: new { id = Model.AccountId })
+</p>

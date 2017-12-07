@@ -72,18 +72,20 @@ namespace Saturn_Budgeter.Controllers
         }
 
         [HttpPost]
-        public ActionResult Void(int id, bool voided)
+        public ActionResult Void(int id, string voided)
         {
+            Transaction transaction = db.Transactions.FirstOrDefault(t => t.Id == id);
             if (ModelState.IsValid)
             {
-                if (voided)
+                if (voided == "true")
                 {
-                    Transaction transaction = db.Transactions.FirstOrDefault(t => t.Id == id);
-                    transaction.Void = voided;
+                    transaction.Void = true;
+                    db.Entry(transaction).State = EntityState.Modified;
+                    db.SaveChanges();
                     return RedirectToAction("Details", "BankAccounts", new { id = id });
                 }
             }
-            return View();
+            return View(transaction);
         }
 
         // GET: Transactions/Edit/5
