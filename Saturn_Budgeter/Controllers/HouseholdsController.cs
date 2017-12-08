@@ -103,7 +103,7 @@ namespace Saturn_Budgeter.Controllers
                     {
                         Subject = String.Format("You have been invited to {0}'s household", sender.DisplayName),
                         Body = String.Format("{0} invited you to their household.\nYou can follow this link to join it: {1}",
-                    sender.DisplayName, Url.Action("Join", null, null, Request.Url.Scheme)),
+                    sender.DisplayName, Url.Action("Join", "Households", routeValues: new { id = invitation.HouseholdId }, protocol:Request.Url.Scheme)),
                         IsBodyHtml = true
                     };
 

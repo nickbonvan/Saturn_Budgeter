@@ -148,7 +148,7 @@ namespace Saturn_Budgeter.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model, string returnUrl)
+        public async Task<ActionResult> Register(RegisterViewModel model, string ReturnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -170,7 +170,7 @@ namespace Saturn_Budgeter.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToLocal(ReturnUrl);
                     //return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
