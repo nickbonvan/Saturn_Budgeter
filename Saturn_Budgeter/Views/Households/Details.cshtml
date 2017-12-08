@@ -60,34 +60,21 @@
         <dd>
             @foreach(BankAccount account in Model.Accounts)
             {
-                @Html.DisplayFor(bankAccount => bankAccount.Name)
+                @Html.DisplayFor(model => account.Name)
+            }
+        </dd>
+        <dt>
+            Invitations Sent to
+        </dt>
+        <dd>
+            @foreach(Invitation invitation in Model.Invitations)
+            {
+                @Html.DisplayFor(model => invitation.Id)
             }
         </dd>
     </dl>
-    @using (Html.BeginForm("Invite", "Households", FormMethod.Post, new { @class = "form-horizontal" }))
-    {
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <input type="hidden" value="@Model.Id" name="HouseholdId" />
-        <div class="form-group">
-            <div class="col-md-10 col-md-offset-1">
-                <input type="email" name="InviteeEmail" placeholder="Invitee Email" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-10 col-md-offset-1">
-                <input type="text" name="Message" placeholder="Send a message" style="width:100%; height:200px;" />
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-10 col-md-offset-2">
-                <input type="submit" class="btn btn-primary" value="Send Invitation"/>
-            </div>
-        </div>
-    }
-</div>
 <p>
+    @Html.ActionLink("Send an invitation", "Invite", "Households", routeValues: new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-primary"})
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

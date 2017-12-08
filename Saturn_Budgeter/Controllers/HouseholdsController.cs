@@ -69,62 +69,45 @@ namespace Saturn_Budgeter.Controllers
             return View(household);
         }
 
-        public ActionResult Invite()
+        //GET Households/Invite/5
+        public ActionResult Invite(int? id)
         {
+            ViewBag.HouseholdId = id;
+            ViewBag.SenderId = User.Identity.GetUserId();
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Invite(int HouseholdId, string InviteeEmail, string Message)
+        public async Task<ActionResult> Invite([Bind(Include ="HouseholdId,SenderId,RecipientEmail,RecipientFirstName,RecipientLastName,Message")] Invitation invitation)
         {
             if (ModelState.IsValid)
             {
-                if(InviteeEmail == null || InviteeEmail == "")
+                ApplicationUser recipient = db.Users.FirstOrDefault(user => user.Email == invitation.RecipientEmail);
+                ApplicationUser sender = db.Users.FirstOrDefault(u => u.Id == invitation.SenderId);
+
+                if(recipient != null)
                 {
-                    return RedirectToAction("Details", new { id = HouseholdId });
+                    invitation.RecipientId = recipient.Id;
+                    invitation.RecipientFirstName = recipient.FirstName;
+                    invitation.RecipientLastName = recipient.LastName;
                 }
 
-                ApplicationUser Invitee = db.Users.FirstOrDefault(user => user.Email == InviteeEmail);
-                Household household = db.Households.FirstOrDefault(h => h.Id == HouseholdId);
-                Invitation invitation;
-                if (Invitee.Email == "" || Invitee.Email == null)
-                {
-                    invitation = new Invitation
-                    {
-                        HouseholdId = HouseholdId,
-                        Message = Message,
-                        RecipientId = null,
-                        SenderId = User.Identity.GetUserId()
-                    };
-                }
-                else
-                {
-                    invitation = new Invitation
-                    {
-                        HouseholdId = HouseholdId,
-                        Message = Message,
-                        RecipientId = Invitee.Id,
-                        SenderId = User.Identity.GetUserId()
-                    };
-                }
-
-                household.Invitations.Add(invitation);
+                db.Invitations.Add(invitation);
+                db.SaveChanges();
 
                 try
                 {
                     string currentUserId = User.Identity.GetUserId();
-                    ApplicationUser currentUser = db.Users.FirstOrDefault(user => user.Id == currentUserId);
-                    ApplicationUser toUser = db.Users.FirstOrDefault(user => user.Id == Invitee.Id);
-                    var email = new MailMessage(ConfigurationManager.AppSettings["emailfrom"], toUser.Email)
+                    MailMessage email = new MailMessage(sender.Email, invitation.RecipientEmail)
                     {
-                        Subject = String.Format("You have been invited to {0}'s household", currentUser.DisplayName),
+                        Subject = String.Format("You have been invited to {0}'s household", sender.DisplayName),
                         Body = String.Format("{0} invited you to their household.\nYou can follow this link to join it: {1}",
-                        currentUser.DisplayName, Url.Action("Household", "Join")),
+                    sender.DisplayName, Url.Action("Join", null, null, Request.Url.Scheme)),
                         IsBodyHtml = true
                     };
 
-                    var svc = new PersonalEmail();
+                    PersonalEmail svc = new PersonalEmail();
                     await svc.SendAsync(email);
                 }
                 catch (Exception e)
@@ -133,9 +116,10 @@ namespace Saturn_Budgeter.Controllers
                     await Task.FromResult(0);
                 }
 
-                return RedirectToAction("Details", "Households", new { id = HouseholdId });
+                return RedirectToAction("Details", "Households", new { id = invitation.HouseholdId });
             }
-            return RedirectToAction("Details", "Households", new { id = HouseholdId });
+            ViewBag.HouseholdId = invitation.HouseholdId;
+            return View();
         }
 
         public ActionResult Join(int id)

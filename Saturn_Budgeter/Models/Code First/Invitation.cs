@@ -9,6 +9,9 @@ namespace Saturn_Budgeter.Models
     {
         public int Id { get; set; }
         public string Message { get; set; }
+        public string RecipientFirstName { get; set; }
+        public string RecipientLastName { get; set; }
+        public string RecipientEmail { get; set; }
 
         public string SenderId { get; set; }
         public string RecipientId { get; set; }

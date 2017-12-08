@@ -9,7 +9,8 @@
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-    
+    <input type="hidden" value="@ViewBag.HouseholdId" name="HouseholdId" />
+
     <div class="form-horizontal">
         <h4>Household</h4>
         <hr />

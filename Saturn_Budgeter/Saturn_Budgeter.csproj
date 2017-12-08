@@ -264,6 +264,10 @@
     <Compile Include="Migrations\201712062237164_rename budget fields.Designer.cs">
       <DependentUpon>201712062237164_rename budget fields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712072237482_Invitation recipient info.cs" />
+    <Compile Include="Migrations\201712072237482_Invitation recipient info.Designer.cs">
+      <DependentUpon>201712072237482_Invitation recipient info.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BankAccountEditViewModel.cs" />
@@ -431,6 +435,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712062237164_rename budget fields.resx">
       <DependentUpon>201712062237164_rename budget fields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712072237482_Invitation recipient info.resx">
+      <DependentUpon>201712072237482_Invitation recipient info.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
