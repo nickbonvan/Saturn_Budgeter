@@ -3,7 +3,7 @@
 <h2>Send an invitation</h2>
 <h3>Household</h3>
 
-@using (Html.BeginForm("Invite", "Households", FormMethod.Post, new { @class = "form-horizontal" }))
+@using (Html.BeginForm("Invite", "Invitations", FormMethod.Post, new { @class = "form-horizontal" }))
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })

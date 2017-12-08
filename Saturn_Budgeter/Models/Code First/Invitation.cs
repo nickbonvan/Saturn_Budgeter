@@ -12,6 +12,7 @@ namespace Saturn_Budgeter.Models
         public string RecipientFirstName { get; set; }
         public string RecipientLastName { get; set; }
         public string RecipientEmail { get; set; }
+        public bool? Accepted { get; set; }
 
         public string SenderId { get; set; }
         public string RecipientId { get; set; }

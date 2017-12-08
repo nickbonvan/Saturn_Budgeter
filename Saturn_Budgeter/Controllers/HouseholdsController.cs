@@ -8,9 +8,6 @@ using System.Web;
 using System.Web.Mvc;
 using Saturn_Budgeter.Models;
 using Microsoft.AspNet.Identity;
-using System.Threading.Tasks;
-using System.Net.Mail;
-using System.Configuration;
 
 namespace Saturn_Budgeter.Controllers
 {
@@ -69,82 +66,6 @@ namespace Saturn_Budgeter.Controllers
             return View(household);
         }
 
-        //GET Households/Invite/5
-        public ActionResult Invite(int? id)
-        {
-            ViewBag.HouseholdId = id;
-            ViewBag.SenderId = User.Identity.GetUserId();
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Invite([Bind(Include ="HouseholdId,SenderId,RecipientEmail,RecipientFirstName,RecipientLastName,Message")] Invitation invitation)
-        {
-            if (ModelState.IsValid)
-            {
-                ApplicationUser recipient = db.Users.FirstOrDefault(user => user.Email == invitation.RecipientEmail);
-                ApplicationUser sender = db.Users.FirstOrDefault(u => u.Id == invitation.SenderId);
-
-                if(recipient != null)
-                {
-                    invitation.RecipientId = recipient.Id;
-                    invitation.RecipientFirstName = recipient.FirstName;
-                    invitation.RecipientLastName = recipient.LastName;
-                }
-
-                db.Invitations.Add(invitation);
-                db.SaveChanges();
-
-                try
-                {
-                    string currentUserId = User.Identity.GetUserId();
-                    MailMessage email = new MailMessage(sender.Email, invitation.RecipientEmail)
-                    {
-                        Subject = String.Format("You have been invited to {0}'s household", sender.DisplayName),
-                        Body = String.Format("{0} invited you to their household.\nYou can follow this link to join it: {1}",
-                    sender.DisplayName, Url.Action("Join", "Households", routeValues: new { id = invitation.HouseholdId }, protocol:Request.Url.Scheme)),
-                        IsBodyHtml = true
-                    };
-
-                    PersonalEmail svc = new PersonalEmail();
-                    await svc.SendAsync(email);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    await Task.FromResult(0);
-                }
-
-                return RedirectToAction("Details", "Households", new { id = invitation.HouseholdId });
-            }
-            ViewBag.HouseholdId = invitation.HouseholdId;
-            return View();
-        }
-
-        public ActionResult Join(int id)
-        {
-            ApplicationUser user = db.Users.FirstOrDefault(u => u.Id == User.Identity.GetUserId());
-            Household household = db.Households.FirstOrDefault(h => h.Id == id);
-            Invitation invitation = db.Invitations.FirstOrDefault(i => i.RecipientId == user.Id);
-            user.HouseholdId = id;
-            household.Users.Add(user);
-            household.Invitations.Remove(invitation);
-
-            return RedirectToAction("Details", "Households", new { id = id });
-        }
-
-        [Authorize]
-        public ActionResult Leave(int id)
-        {
-            string userId = User.Identity.GetUserId();
-            ApplicationUser user = db.Users.FirstOrDefault(u => u.Id == userId);
-            Household household = db.Households.FirstOrDefault(h => h.Id == id);
-            household.Users.Remove(user);
-            user.HouseholdId = null;
-
-            return RedirectToAction("Index", "Home");
-        }
 
         // GET: Households/Edit/5
         public ActionResult Edit(int? id)

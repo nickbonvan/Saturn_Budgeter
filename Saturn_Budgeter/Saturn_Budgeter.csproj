@@ -194,6 +194,7 @@
     <Compile Include="Controllers\BudgetsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HouseholdsController.cs" />
+    <Compile Include="Controllers\InvitationsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\TransactionsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -268,6 +269,10 @@
     <Compile Include="Migrations\201712072237482_Invitation recipient info.Designer.cs">
       <DependentUpon>201712072237482_Invitation recipient info.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712082031202_accepted property added to invitations.cs" />
+    <Compile Include="Migrations\201712082031202_accepted property added to invitations.Designer.cs">
+      <DependentUpon>201712082031202_accepted property added to invitations.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BankAccountEditViewModel.cs" />
@@ -280,6 +285,7 @@
     <Compile Include="Models\Code First\Invitation.cs" />
     <Compile Include="Models\Code First\Transaction.cs" />
     <Compile Include="Models\Code First\TransactionType.cs" />
+    <Compile Include="Models\HouseholdJoinViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -348,7 +354,7 @@
     <Content Include="Views\Households\Details.cshtml" />
     <Content Include="Views\Households\Edit.cshtml" />
     <Content Include="Views\Households\Index.cshtml" />
-    <Content Include="Views\Households\Invite.cshtml" />
+    <None Include="Views\Invitations\Invite.cshtml" />
     <Content Include="Views\BankAccounts\Create.cshtml" />
     <Content Include="Views\BankAccounts\Delete.cshtml" />
     <Content Include="Views\BankAccounts\Details.cshtml" />
@@ -370,6 +376,12 @@
     <Content Include="Views\BudgetItems\Edit.cshtml" />
     <Content Include="Views\BudgetItems\Index.cshtml" />
     <Content Include="Views\Transactions\Void.cshtml" />
+    <Content Include="Views\Invitations\Create.cshtml" />
+    <Content Include="Views\Invitations\Delete.cshtml" />
+    <Content Include="Views\Invitations\Details.cshtml" />
+    <Content Include="Views\Invitations\Edit.cshtml" />
+    <Content Include="Views\Invitations\Index.cshtml" />
+    <Content Include="Views\Invitations\Join.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -438,6 +450,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712072237482_Invitation recipient info.resx">
       <DependentUpon>201712072237482_Invitation recipient info.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712082031202_accepted property added to invitations.resx">
+      <DependentUpon>201712082031202_accepted property added to invitations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
